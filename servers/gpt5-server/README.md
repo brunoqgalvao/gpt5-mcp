@@ -1,7 +1,7 @@
 # GPT-5 MCP Server
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/danielbowne/gpt5-mcp/main/assets/images/gpt5-mcp-logo.png" alt="GPT-5 MCP Server Logo" width="300" />
+  <img src="../../assets/images/gpt5-mcp-logo.png" alt="GPT-5 MCP Server Logo" width="300" />
 </div>
 
 A Model Context Protocol (MCP) server that provides seamless integration with OpenAI's GPT-5 API. Access the most advanced language model directly through your favorite AI development tools.
