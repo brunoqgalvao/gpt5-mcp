@@ -2,8 +2,6 @@
 
 A Model Context Protocol (MCP) server that provides seamless integration with OpenAI's GPT-5 API. Access the most advanced language model directly through your favorite AI development tools.
 
-<a href="https://glama.ai/mcp/servers/luhmbymvs5"><img width="380" height="200" src="https://glama.ai/mcp/servers/luhmbymvs5/badge" alt="GPT-5 MCP Server" /></a>
-
 ## Features
 
 - **Direct GPT-5 Integration**: Access OpenAI's most advanced model through MCP
