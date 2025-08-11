@@ -1,0 +1,18 @@
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+
+# Documentation
+*.md text
+*.txt text
+
+# Source code
+*.js text
+*.ts text
+*.json text
+*.yml text
+*.yaml text
