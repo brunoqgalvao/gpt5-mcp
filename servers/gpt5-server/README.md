@@ -148,8 +148,17 @@ Add to your Continue configuration:
 
 ### Claude Code
 
-Install using the Claude CLI:
+**Local Server Connection (Recommended)**
+```bash
+claude mcp add gpt5-server -- npx -y @dannyboy2042/gpt5-mcp-server
+```
 
+**With Environment Variable**
+```bash
+claude mcp add gpt5-server -e OPENAI_API_KEY=your-api-key-here -- npx -y @dannyboy2042/gpt5-mcp-server
+```
+
+**Legacy Method**
 ```bash
 claude mcp add gpt5-server -e OPENAI_API_KEY=your-api-key-here -- npx @dannyboy2042/gpt5-mcp-server
 ```
