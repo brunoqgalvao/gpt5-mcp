@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      
+      - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies
+        working-directory: ./servers/gpt5-server
+        run: npm ci
+      
+      - name: Build
+        working-directory: ./servers/gpt5-server
+        run: npm run build
+      
+      - name: Determine npm tag
+        id: npm-tag
+        run: |
+          if [[ "${{ github.ref_name }}" == *"beta"* ]]; then
+            echo "tag=beta" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref_name }}" == *"rc"* ]]; then
+            echo "tag=rc" >> $GITHUB_OUTPUT
+          else
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Publish to npm
+        working-directory: ./servers/gpt5-server
+        run: npm publish --tag ${{ steps.npm-tag.outputs.tag }} --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8
+        with:
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+          body: |
+            ## Installation
+            
+            ```bash
+            # Install via NPM
+            npm install -g @dannyboy2042/gpt5-mcp-server
+            
+            # Or add to Claude Desktop
+            {
+              "mcpServers": {
+                "gpt5-server": {
+                  "command": "npx",
+                  "args": ["@dannyboy2042/gpt5-mcp-server"],
+                  "env": {
+                    "OPENAI_API_KEY": "your-api-key-here"
+                  }
+                }
+              }
+            }
+            ```
+            
+            ## Usage
+            
+            Requires an OpenAI API key with GPT-5 access.
+            
+            **Tools:**
+            - `gpt5_generate`: Simple text generation
+            - `gpt5_messages`: Structured conversation handling
+            
+            See the [README](https://github.com/danielbowne/gpt5-mcp) for full documentation.
