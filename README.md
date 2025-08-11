@@ -345,6 +345,10 @@ MIT License - see [LICENSE](LICENSE) file for details
 - **Issues**: [GitHub Issues](https://github.com/danielbowne/gpt5-mcp/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/danielbowne/gpt5-mcp/discussions)
 
+## Special Thanks
+
+💡 **Inspired by**: [All About AI](https://www.youtube.com/@AllAboutAI) - Thanks for the awesome content that sparked this project!
+
 ---
 
 > "The future is already here — it's just not evenly distributed." - William Gibson
