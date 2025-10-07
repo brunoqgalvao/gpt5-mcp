@@ -133,7 +133,7 @@ async function main() {
     },
     async (args: GPT5MessagesArgs) => {
       console.error(`GPT-5 Messages: ${args.messages.length} messages`);
-      
+
       try {
         const result = await callGPT5WithMessages(process.env.OPENAI_API_KEY!, args.messages, {
           model: args.model,
@@ -143,12 +143,12 @@ async function main() {
           temperature: args.temperature,
           top_p: args.top_p
         });
-        
+
         let responseText = result.content;
         if (result.usage) {
           responseText += `\n\n**Usage:** ${result.usage.prompt_tokens} prompt tokens, ${result.usage.completion_tokens} completion tokens, ${result.usage.total_tokens} total tokens`;
         }
-        
+
         return {
           content: [{
             type: "text" as const,
@@ -157,11 +157,63 @@ async function main() {
         };
       } catch (error) {
         console.error("ERROR during GPT-5 API call:", error);
-        
+
         return {
           content: [{
             type: "text" as const,
             text: `GPT-5 API error: ${error instanceof Error ? error.message : String(error)}`
+          }],
+          isError: true
+        };
+      }
+    }
+  );
+
+  // Register the gpt5_pro tool
+  server.registerTool(
+    "gpt5_pro",
+    {
+      title: "GPT-5 Pro",
+      description: "Generate text using OpenAI GPT-5-Pro - the most advanced reasoning model with high reasoning effort, 400K context, and up to 272K output tokens. Best for complex tasks in finance, legal, and healthcare.",
+      inputSchema: {
+        input: z.string().describe("The input text or prompt for GPT-5-Pro"),
+        instructions: z.string().optional().describe("System instructions for the model"),
+        max_tokens: z.number().optional().describe("Maximum tokens to generate (up to 272000)"),
+        temperature: z.number().min(0).max(2).optional().describe("Temperature for randomness (0-2)"),
+        top_p: z.number().min(0).max(1).optional().describe("Top-p sampling parameter")
+      }
+    },
+    async (args: { input: string; instructions?: string; max_tokens?: number; temperature?: number; top_p?: number }) => {
+      console.error(`GPT-5-Pro: "${args.input.substring(0, 100)}..."`);
+
+      try {
+        const result = await callGPT5(process.env.OPENAI_API_KEY!, args.input, {
+          model: 'gpt-5-pro',
+          instructions: args.instructions,
+          reasoning_effort: 'high', // GPT-5-Pro defaults to high reasoning effort
+          max_tokens: args.max_tokens,
+          temperature: args.temperature,
+          top_p: args.top_p
+        });
+
+        let responseText = result.content;
+        if (result.usage) {
+          responseText += `\n\n**Usage:** ${result.usage.prompt_tokens} prompt tokens, ${result.usage.completion_tokens} completion tokens, ${result.usage.total_tokens} total tokens`;
+        }
+
+        return {
+          content: [{
+            type: "text" as const,
+            text: responseText
+          }]
+        };
+      } catch (error) {
+        console.error("ERROR during GPT-5-Pro API call:", error);
+
+        return {
+          content: [{
+            type: "text" as const,
+            text: `GPT-5-Pro API error: ${error instanceof Error ? error.message : String(error)}`
           }],
           isError: true
         };

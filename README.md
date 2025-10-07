@@ -8,10 +8,11 @@ A Model Context Protocol (MCP) server that provides seamless integration with Op
 
 ## Features
 
-- **Direct GPT-5 Integration**: Access OpenAI's most advanced model through MCP
-- **Dual Tool Support**:
+- **Direct GPT-5 Integration**: Access OpenAI's most advanced models through MCP
+- **Triple Tool Support**:
   - `gpt5_generate`: Simple text generation with prompts
   - `gpt5_messages`: Structured conversation handling
+  - `gpt5_pro`: Advanced reasoning with GPT-5-Pro (400K context, 272K output)
 - **Flexible Parameters**: Control temperature, max tokens, reasoning effort, and more
 - **Usage Tracking**: Built-in token usage reporting
 - **TypeScript**: Fully typed for better development experience
@@ -231,6 +232,33 @@ Generate text using structured conversation messages.
 }
 ```
 
+### `gpt5_pro`
+
+Generate text using GPT-5-Pro, OpenAI's most advanced reasoning model with extended capabilities.
+
+**Parameters:**
+- `input` (required): The text prompt for GPT-5-Pro
+- `instructions` (optional): System instructions for the model
+- `max_tokens` (optional): Maximum tokens to generate (up to 272,000)
+- `temperature` (optional): Randomness level (0-2)
+- `top_p` (optional): Top-p sampling parameter (0-1)
+
+**Features:**
+- 400,000 token context window
+- Up to 272,000 output tokens
+- Defaults to high reasoning effort
+- Best for complex tasks requiring deep analysis
+- Ideal for finance, legal, and healthcare applications
+
+**Example:**
+```json
+{
+  "input": "Analyze this complex legal contract and identify potential risks and liabilities",
+  "instructions": "Provide a thorough analysis with supporting citations",
+  "max_tokens": 100000
+}
+```
+
 ## Usage Examples
 
 ### Simple Generation
@@ -251,6 +279,19 @@ Have GPT-5 write a short story about time travel
 ### Technical Analysis
 ```
 Use GPT-5 with high reasoning to solve this complex algorithm problem
+```
+
+### Advanced Reasoning with GPT-5-Pro
+```
+Use GPT-5-Pro to analyze this financial report and identify investment risks
+```
+
+```
+Ask GPT-5-Pro to review this legal document for compliance issues
+```
+
+```
+Have GPT-5-Pro perform a comprehensive security audit of this codebase
 ```
 
 ## Environment Variables
